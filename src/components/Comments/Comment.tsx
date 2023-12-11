@@ -18,6 +18,11 @@ const CommentHeader = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 8px;
+  > div:first-child{
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+  }
 `;
 
 const CommentContent = styled.div`
@@ -31,13 +36,14 @@ const CommentActions = styled.div`
 
 interface CommentProps {
   author: string;
+  avatar: string;
   text: string;
-  date: Date;
+  timestamp: string;
   rating: number;
   onVote: (type: 'up' | 'down') => void;
 }
 
-const Comment: React.FC<CommentProps> = ({ author, text, date, rating, onVote }) => {
+const Comment: React.FC<CommentProps> = ({ author, text, timestamp, avatar, rating, onVote }) => {
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const handleVote = (type: 'up' | 'down') => {
@@ -47,13 +53,16 @@ const Comment: React.FC<CommentProps> = ({ author, text, date, rating, onVote })
   return (
     <>
       <CommentHeader>
-        <Avatar>{author?.charAt(0)}</Avatar>
+        <Avatar src={avatar}>{author?.charAt(0)}</Avatar>
         <Typography variant="subtitle1" style={{ marginLeft: '8px' }}>
-          {!author && 'Я автор'}
+          {author}
+        </Typography>
+        <Typography variant="caption" style={{ marginLeft: '8px' }}>
+          {timestamp?.toLocaleString()}
         </Typography>
       </CommentHeader>
       <CommentContent>
-        <Typography>{!text && "Это текст"}</Typography>
+        <Typography>{text}</Typography>
       </CommentContent>
       <CommentActions>
         <IconButton onClick={() => handleVote('up')}>
@@ -63,9 +72,6 @@ const Comment: React.FC<CommentProps> = ({ author, text, date, rating, onVote })
         <IconButton onClick={() => handleVote('down')}>
           <ThumbDownIcon />
         </IconButton>
-        <Typography variant="caption" style={{ marginLeft: '8px' }}>
-          {date?.toLocaleString()}
-        </Typography>
       </CommentActions>
     </>
   );
