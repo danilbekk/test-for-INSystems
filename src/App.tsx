@@ -7,8 +7,9 @@ function App() {
 
   return (
     <div>
-      <Comment />
       <CommentForm />
+      <Comment />
+      
     </div>
   )
 }

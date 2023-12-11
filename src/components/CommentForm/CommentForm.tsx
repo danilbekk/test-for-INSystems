@@ -12,14 +12,15 @@ interface CommentData {
 }
 
 const StyledCommentForm = styled(Grid)({
-  marginTop: '16px',
-  maxWidth: '750px',
-  display: 'block',
+  marginBottom: '16px',
+  maxWidth: '350px',
+  display: 'block'
 });
 
 const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
   const [author, setAuthor] = useState('');
   const [text, setText] = useState('');
+  const [email, setEmail] = useState('');
 
   const handleAuthorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAuthor(event.target.value);
@@ -29,6 +30,9 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
     setText(event.target.value);
   };
 
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
   const handleSubmit = () => {
     if (author && text) {
       onSubmit({ author, text });
@@ -46,7 +50,6 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
         <Grid item xs container direction="column" spacing={2}>
           <Grid item xs>
             <TextField
-              fullWidth
               id="author"
               label="Your Name"
               variant="outlined"
@@ -56,12 +59,22 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
           </Grid>
           <Grid item xs>
             <TextField
+              id="email"
+              label="Your email"
+              variant="outlined"
+              value={email}
+              onChange={handleEmailChange}
+              type='email'
+            />
+          </Grid>
+          <Grid item xs>
+            <TextField
               fullWidth
               id="text"
               label="Your Comment"
               variant="outlined"
               multiline
-              rows={3}
+              rows={2}
               value={text}
               onChange={handleTextChange}
             />
