@@ -1,20 +1,16 @@
 import React, { useState } from 'react';
-import { Avatar, TextField, Grid, IconButton, Typography, Button } from '@mui/material';
+import { TextField, Grid, Typography, Button } from '@mui/material';
 import { styled } from '@mui/system';
+import { generateId } from '../../utils/generateId';
+import { CommentType } from '../../interfaces/commentsModel';
 
 interface CommentFormProps {
-  onSubmit: (comment: CommentData) => void;
-}
-
-interface CommentData {
-  author: string;
-  text: string;
+  onSubmit: (comment: CommentType) => void;
 }
 
 const StyledCommentForm = styled(Grid)({
   marginBottom: '16px',
-  maxWidth: '350px',
-  display: 'block'
+  display: 'block',
 });
 
 const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
@@ -35,36 +31,28 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
   };
   const handleSubmit = () => {
     if (author && text) {
-      onSubmit({ author, text });
+      onSubmit({ id: generateId(), author, text, email, avatar: '', rating: 0, timestamp: Date.now() });
       setAuthor('');
       setText('');
+      setEmail('');
     }
   };
 
   return (
     <StyledCommentForm container spacing={2}>
-      <Grid item>
-        <Avatar />
-      </Grid>
       <Grid item xs={12} sm container>
-        <Grid item xs container direction="column" spacing={2}>
-          <Grid item xs>
-            <TextField
-              id="author"
-              label="Your Name"
-              variant="outlined"
-              value={author}
-              onChange={handleAuthorChange}
-            />
+        <Grid container rowSpacing={1} spacing={2}>
+          <Grid item xs={6}>
+            <TextField id="author" label="Your Name" variant="outlined" value={author} onChange={handleAuthorChange} />
           </Grid>
-          <Grid item xs>
+          <Grid item xs={6}>
             <TextField
               id="email"
               label="Your email"
               variant="outlined"
               value={email}
               onChange={handleEmailChange}
-              type='email'
+              type="email"
             />
           </Grid>
           <Grid item xs>

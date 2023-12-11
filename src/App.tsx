@@ -1,17 +1,15 @@
 import { useState } from 'react'
-import Comment  from './components/Comments/Comment'
 import CommentForm from './components/CommentForm/CommentForm'
 import Comments from './components/Comments/Comments'
+import { Container } from '@mui/material'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <div>
-      <CommentForm />
+    <Container maxWidth="sm">
       <Comments />
-      
-    </div>
+    </Container>
   )
 }
 

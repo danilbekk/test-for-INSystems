@@ -5,4 +5,5 @@ export interface CommentType {
   text: string; 
   timestamp: number; 
   rating: number; 
+  email: string;
 }

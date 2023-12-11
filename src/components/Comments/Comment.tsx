@@ -5,6 +5,7 @@ import IconButton from '@mui/material/IconButton';
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import styled from 'styled-components';
+import CommentForm from '../CommentForm/CommentForm';
 
 const CommentContainer = styled.div`
   margin-bottom: 16px;
@@ -18,10 +19,15 @@ const CommentHeader = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 8px;
-  > div:first-child{
+  > div:first-child {
     width: 24px;
     height: 24px;
     font-size: 14px;
+  }
+
+  > h6 {
+    margin-left: 8px;
+    margin-right: 8px;
   }
 `;
 
@@ -32,6 +38,7 @@ const CommentContent = styled.div`
 const CommentActions = styled.div`
   display: flex;
   align-items: center;
+  margin-bottom: 30px;
 `;
 
 interface CommentProps {
@@ -52,14 +59,11 @@ const Comment: React.FC<CommentProps> = ({ author, text, timestamp, avatar, rati
 
   return (
     <>
+   
       <CommentHeader>
         <Avatar src={avatar}>{author?.charAt(0)}</Avatar>
-        <Typography variant="subtitle1" style={{ marginLeft: '8px' }}>
-          {author}
-        </Typography>
-        <Typography variant="caption" style={{ marginLeft: '8px' }}>
-          {timestamp?.toLocaleString()}
-        </Typography>
+        <Typography variant="subtitle2">{author}</Typography>
+        <Typography variant="caption">{timestamp?.toLocaleString()}</Typography>
       </CommentHeader>
       <CommentContent>
         <Typography>{text}</Typography>

@@ -2,7 +2,9 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import Comment from './Comment';
 import { useAppDispatch, useAppSelector } from '../../storage/redux/hooks';
-import { fetchComments } from '../../storage/redux/slices/commentSlice';
+import { addComment, fetchComments } from '../../storage/redux/slices/commentSlice';
+import CommentForm from '../CommentForm/CommentForm';
+import { CommentType } from '../../interfaces/commentsModel';
 
 const CommentContainer = styled.div`
   margin-bottom: 16px;
@@ -43,18 +45,41 @@ function pluralize(number, one, few, many) {
 
 const Comments = () => {
   const dispatch = useAppDispatch();
-  const comments = useAppSelector((state) => state.comments.comments);
+  const { comments, loading, error } = useAppSelector((state) => state.comments);
 
   useEffect(() => {
     dispatch(fetchComments());
-  }, []);
+  }, [dispatch]);
+
+
+  const handleAddComment = (data: CommentType) => {
+    dispatch(addComment(data))
+  }
+
+  if (loading === true) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
-    <CommentContainer>
-      {comments.map((comment) => (
-        <Comment key={comment.id} avatar={comment.avatar} author={comment.author} text={comment.text} rating={comment.rating} timestamp={formatTime(comment.timestamp)} />
-      ))}
-    </CommentContainer>
+    <>
+      <CommentForm onSubmit={handleAddComment} />
+      <CommentContainer>
+        {comments.map((comment) => (
+          <Comment
+            key={comment.id}
+            avatar={comment.avatar}
+            author={comment.author}
+            text={comment.text}
+            rating={comment.rating}
+            timestamp={formatTime(comment.timestamp)}
+          />
+        ))}
+      </CommentContainer>
+    </>
   );
 };
 
