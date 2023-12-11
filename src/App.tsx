@@ -1,6 +1,7 @@
 import { useState } from 'react'
-import Comment  from './components/Comment/Comment'
+import Comment  from './components/Comments/Comment'
 import CommentForm from './components/CommentForm/CommentForm'
+import Comments from './components/Comments/Comments'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -8,7 +9,7 @@ function App() {
   return (
     <div>
       <CommentForm />
-      <Comment />
+      <Comments />
       
     </div>
   )

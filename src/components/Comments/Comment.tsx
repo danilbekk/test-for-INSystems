@@ -45,7 +45,7 @@ const Comment: React.FC<CommentProps> = ({ author, text, date, rating, onVote })
   };
 
   return (
-    <CommentContainer>
+    <>
       <CommentHeader>
         <Avatar>{author?.charAt(0)}</Avatar>
         <Typography variant="subtitle1" style={{ marginLeft: '8px' }}>
@@ -67,7 +67,7 @@ const Comment: React.FC<CommentProps> = ({ author, text, date, rating, onVote })
           {date?.toLocaleString()}
         </Typography>
       </CommentActions>
-    </CommentContainer>
+    </>
   );
 };
 
