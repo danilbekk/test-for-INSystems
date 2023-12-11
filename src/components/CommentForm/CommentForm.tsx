@@ -17,21 +17,41 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
   const [author, setAuthor] = useState('');
   const [text, setText] = useState('');
   const [email, setEmail] = useState('');
+  const [textError, setTextError] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [authorError, setAuthorError] = useState('');
 
   const handleAuthorChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setAuthor(event.target.value);
+    setAuthorError('');
   };
 
   const handleTextChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setText(event.target.value);
+    setTextError('');
   };
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
+    const inputEmail = event.target.value;
+    setEmail(inputEmail);
+
+    // Validate email format using a simple regex pattern
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    setEmailError(emailPattern.test(inputEmail) ? '' : 'Invalid email format');
   };
+
   const handleSubmit = () => {
-    if (author && text) {
-      onSubmit({ id: generateId(), author, text, email, avatar: '', rating: 0, timestamp: Date.now() });
+    if (!author.trim()) {
+      setAuthorError('Введите имя');
+    }
+    if (!text.trim()) {
+      setTextError('Введите текст');
+    }
+    if (!email.trim()) {
+      setEmailError('Введите emal');
+    }
+    if (!textError && !emailError && !authorError) {
+      onSubmit({ id: generateId(), author, text, email, avatar: '', rates: [], timestamp: Date.now() });
       setAuthor('');
       setText('');
       setEmail('');
@@ -43,7 +63,15 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
       <Grid item xs={12} sm container>
         <Grid container rowSpacing={1} spacing={2}>
           <Grid item xs={6}>
-            <TextField id="author" label="Your Name" variant="outlined" value={author} onChange={handleAuthorChange} />
+            <TextField
+              id="author"
+              label="Your Name"
+              variant="outlined"
+              value={author}
+              onChange={handleAuthorChange}
+              error={!!authorError}
+              helperText={authorError}
+            />
           </Grid>
           <Grid item xs={6}>
             <TextField
@@ -53,6 +81,8 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
               value={email}
               onChange={handleEmailChange}
               type="email"
+              error={!!emailError}
+              helperText={emailError}
             />
           </Grid>
           <Grid item xs>
@@ -65,6 +95,8 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
               rows={2}
               value={text}
               onChange={handleTextChange}
+              error={!!textError}
+              helperText={textError}
             />
           </Grid>
         </Grid>
