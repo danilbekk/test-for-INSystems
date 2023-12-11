@@ -50,7 +50,7 @@ const CommentForm: React.FC<CommentFormProps> = ({ onSubmit }) => {
     if (!email.trim()) {
       setEmailError('Введите emal');
     }
-    if (!textError && !emailError && !authorError) {
+    if (author && text && email) {
       onSubmit({ id: generateId(), author, text, email, avatar: '', rates: [], timestamp: Date.now() });
       setAuthor('');
       setText('');
